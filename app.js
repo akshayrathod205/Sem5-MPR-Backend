@@ -1,8 +1,7 @@
-import express from "express";
-import cors from "cors";
-import dotenv from "dotenv";
-import connectDB from "./db/connect.js  ";
-dotenv.config();
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./db/connect");
+require("dotenv").config();
 const app = express();
 
 app.use(express.json());
