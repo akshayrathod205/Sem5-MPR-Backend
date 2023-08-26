@@ -7,7 +7,7 @@
     "start": "nodemon app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Akshay Rathod",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.1"
