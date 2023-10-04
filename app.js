@@ -9,8 +9,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use("api/v1/auth", authRouter);
-app.use("api/v1/dashboard", dashboardRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/dashboard", dashboardRouter);
 
 const port = process.env.PORT || 5000;
 
