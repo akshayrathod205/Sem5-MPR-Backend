@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const ConsumerSchema = new mongoose.Schema({
   firstName: {
@@ -51,6 +53,12 @@ const ConsumerSchema = new mongoose.Schema({
     type: String,
   },
 });
+
+ConsumerSchema.methods.generateToken = function () {
+  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};
 
 const Consumer = mongoose.model("Consumer", ConsumerSchema);
 module.exports = Consumer;

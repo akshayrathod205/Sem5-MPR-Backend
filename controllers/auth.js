@@ -15,10 +15,10 @@ const consumerSignup = async (req, res) => {
       city,
       pincode,
       userType,
-      companyName,
-      companyType,
-      gstNo,
-      panNo,
+      // companyName,
+      // companyType,
+      // gstNo,
+      // panNo,
     } = req.body;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -34,10 +34,10 @@ const consumerSignup = async (req, res) => {
         city: city,
         pincode: pincode,
         userType: userType,
-        companyName: companyName,
-        companyType: companyType,
-        gstNo: gstNo,
-        panNo: panNo,
+        // companyName: companyName,
+        // companyType: companyType,
+        // gstNo: gstNo,
+        // panNo: panNo,
       });
       res
         .status(200)
@@ -58,9 +58,7 @@ const consumerLogin = async (req, res) => {
     if (loggedInUser) {
       const isMatch = await bcrypt.compare(password, loggedInUser.password);
       if (isMatch) {
-        const token = jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
-          expiresIn: "30d",
-        });
+        const token = loggedInUser.generateToken();
         res.status(200).json({
           message: "Login successful",
           token: token,
