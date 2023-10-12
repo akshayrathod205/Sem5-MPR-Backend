@@ -4,6 +4,7 @@ const connectDB = require("./db/connect");
 const authRouter = require("./routes/auth");
 const dashboardRouter = require("./routes/dashboard");
 const contactRouter = require("./routes/contact");
+const userRouter = require("./routes/users");
 require("dotenv").config();
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/contact", contactRouter);
+app.use("/api/v1/user", userRouter);
 
 const port = process.env.PORT || 5000;
 
