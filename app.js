@@ -5,6 +5,7 @@ const authRouter = require("./routes/auth");
 const dashboardRouter = require("./routes/dashboard");
 const contactRouter = require("./routes/contact");
 const userRouter = require("./routes/users");
+const cartRouter = require("./routes/cart");
 require("dotenv").config();
 const app = express();
 
@@ -15,6 +16,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/contact", contactRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/cart", cartRouter);
 
 const port = process.env.PORT || 5000;
 
