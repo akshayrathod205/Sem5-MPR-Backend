@@ -15,30 +15,40 @@ const consumerSignup = async (req, res) => {
       city,
       pincode,
       userType,
-      // companyName,
-      // companyType,
-      // gstNo,
-      // panNo,
     } = req.body;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const existingUser = await Consumer.findOne({ email: email });
     if (!existingUser) {
-      const user = await Consumer.create({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: hashedPassword,
-        contactNo: contactNo,
-        address: address,
-        city: city,
-        pincode: pincode,
-        userType: userType,
-        // companyName: companyName,
-        // companyType: companyType,
-        // gstNo: gstNo,
-        // panNo: panNo,
-      });
+      const user =
+        userType === "individual"
+          ? await Consumer.create({
+              firstName,
+              lastName,
+              email,
+              password: hashedPassword,
+              contactNo,
+              address,
+              city,
+              pincode,
+              userType,
+            })
+          : await Consumer.create({
+              firstName,
+              lastName,
+              email,
+              password: hashedPassword,
+              contactNo,
+              address,
+              city,
+              pincode,
+              userType,
+              companyName,
+              companyType,
+              gstNo,
+              panNo,
+            });
+
       res
         .status(200)
         .json({ message: "User created successfully", user: user });
