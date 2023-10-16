@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Authentication = require("../middleware/Authentication");
-const { dashboardConsumer } = require("../controllers/dashboard");
+const { getAllProducts, getProduct } = require("../controllers/dashboard");
 
-router.route("/consumer").get(Authentication, dashboardConsumer);
+router.route("/").get(Authentication, getAllProducts);
+router.route("/:id").get(Authentication, getProduct);
 
 module.exports = router;

@@ -3,9 +3,6 @@ const Product = require("../models/Product");
 
 const getAllProducts = async (req, res) => {
   try {
-    const consumerId = req.user.payload.userId;
-    const consumer = await Consumer.findById(consumerId);
-    console.log(consumer);
     const products = await Product.find({});
     res.status(200).json({ products: products });
   } catch (error) {
@@ -25,4 +22,4 @@ const getProduct = async (req, res) => {
   }
 };
 
-module.exports = { getAllProducts };
+module.exports = { getAllProducts, getProduct };
