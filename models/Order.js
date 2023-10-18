@@ -28,7 +28,7 @@ const OrderSchema = new mongoose.Schema({
   paymentMethod: {
     type: String,
   },
-  totalPrice: {
+  quotation: {
     type: Number,
   },
   isPaid: {

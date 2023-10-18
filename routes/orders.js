@@ -7,6 +7,8 @@ const {
   getUserOrders,
   createOrder,
   cancelOrder,
+  addQuotation,
+  payOrder,
 } = require("../controllers/orders");
 
 router
@@ -18,5 +20,8 @@ router
   .route("/:id")
   .get(Authentication, getSingleOrder)
   .delete(Authentication, cancelOrder);
+
+router.route("/quotation").post(Authentication, addQuotation);
+router.route("/pay").post(Authentication, payOrder);
 
 module.exports = router;

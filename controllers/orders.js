@@ -91,10 +91,43 @@ const cancelOrder = async (req, res) => {
   }
 };
 
+const addQuotation = async (req, res) => {
+  try {
+    const { orderId, quotation } = req.body;
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    order.quotation = quotation;
+    await order.save();
+    res.status(200).json({ message: "Quotation added successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const payOrder = async (req, res) => {
+  try {
+    const { orderId, paymentMethod } = req.body;
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+    order.paymentMethod = paymentMethod;
+    order.isPaid = true;
+    await order.save();
+    res.status(200).json({ message: "Payment successful" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getAllOrders,
   getSingleOrder,
   getUserOrders,
   createOrder,
   cancelOrder,
+  addQuotation,
+  payOrder,
 };
