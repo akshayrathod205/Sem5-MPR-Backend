@@ -7,6 +7,7 @@ const contactRouter = require("./routes/contact");
 const userRouter = require("./routes/users");
 const cartRouter = require("./routes/cart");
 const inventoryRouter = require("./routes/inventory");
+const ordersRouter = require("./routes/orders");
 require("dotenv").config();
 const app = express();
 
@@ -19,6 +20,7 @@ app.use("/api/v1/contact", contactRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/inventory", inventoryRouter);
+app.use("/api/v1/orders", ordersRouter);
 
 const port = process.env.PORT || 5000;
 
