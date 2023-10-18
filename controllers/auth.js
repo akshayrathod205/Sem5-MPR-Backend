@@ -86,4 +86,29 @@ const consumerLogin = async (req, res) => {
   }
 };
 
-module.exports = { consumerSignup, consumerLogin };
+const adminLogin = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const loggedInUser = await Admin.findOne({ username: username });
+    if (loggedInUser) {
+      const isMatch = await bcrypt.compare(password, loggedInUser.password);
+      if (isMatch) {
+        const token = loggedInUser.generateToken();
+        res.status(200).json({
+          message: "Login successful",
+          token: token,
+          user: loggedInUser,
+        });
+      } else {
+        res.status(401).json({ message: "Invalid credentials" });
+      }
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { consumerSignup, consumerLogin, adminLogin };

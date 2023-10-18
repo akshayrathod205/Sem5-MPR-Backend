@@ -13,5 +13,11 @@ const AdminSchema = new mongoose.Schema({
   },
 });
 
+AdminSchema.methods.generateToken = function () {
+  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};
+
 const Admin = mongoose.model("Admin", AdminSchema);
 module.exports = Admin;
