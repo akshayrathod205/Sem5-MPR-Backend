@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Authentication = require("../middlewares/authentication");
+const Authentication = require("../middleware/Authentication");
 const {
   getAllOrders,
   getSingleOrder,

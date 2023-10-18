@@ -1,6 +1,6 @@
 const Order = require("../models/Order");
 const Product = require("../models/Product");
-const User = require("../models/User");
+const User = require("../models/Consumer");
 const Cart = require("../models/Cart");
 
 const getAllOrders = async (req, res) => {
