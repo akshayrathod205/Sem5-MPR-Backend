@@ -6,7 +6,11 @@ const getCart = async (req, res) => {
   try {
     const loggedInUserId = req.user.payload.userId;
     const cart = await Cart.findOne({ userId: loggedInUserId });
-    res.status(200).json({ cart });
+    if (!cart) {
+      return res.status(404).json({ error: "Cart not found" });
+    }
+    console.log(cart);
+    res.status(200).json({ products: cart.products });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -15,7 +19,7 @@ const getCart = async (req, res) => {
 const addToCart = async (req, res) => {
   try {
     const loggedInUserId = req.user.payload.userId;
-    const { productId, quantity } = req.body;
+    const { productId, name, type, productImage } = req.body;
 
     const cart = await Cart.findOne({ userId: loggedInUserId });
     const product = await Product.findById(productId);
@@ -27,7 +31,7 @@ const addToCart = async (req, res) => {
     if (!cart) {
       const newCart = await Cart.create({
         userId: loggedInUserId,
-        products: [{ productId, quantity }],
+        products: [{ productId, name, type, productImage }],
       });
       return res.status(201).json({ cart: newCart });
     }
@@ -39,7 +43,7 @@ const addToCart = async (req, res) => {
     if (productInCart) {
       productInCart.quantity = quantity;
     } else {
-      cart.products.push({ productId, quantity });
+      cart.products.push({ productId, name, type, productImage });
     }
 
     await cart.save();

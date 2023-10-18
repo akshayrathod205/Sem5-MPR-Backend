@@ -35,21 +35,71 @@ const getUserOrders = async (req, res) => {
   }
 };
 
+// const createOrder = async (req, res) => {
+//   try {
+//     const loggedInUserId = req.user.payload.userId;
+//     const cart = await Cart.findOne({ userId: loggedInUserId });
+//     if (!cart) {
+//       return res.status(404).json({ error: "Cart not found" });
+//     }
+//     const cartProducts = cart.products;
+//     const orderItems = [];
+//     for (let i = 0; i < cartProducts.length; i++) {
+//       const product = await Product.findById(cartProducts[i].productId);
+//       if (!product) {
+//         return res.status(404).json({ error: "Product not found" });
+//       }
+//       orderItems.push({
+//         name: product.name,
+//         type: product.type,
+//         size: product.size,
+//         batch: product.batch,
+//         material: product.material,
+//         productImage: product.productImage,
+//         quantity: 1,
+//       });
+//     }
+
+//     const order = await Order.create({
+//       userId: loggedInUserId,
+//       orderItems,
+//     });
+//     await cart.deleteOne();
+//     res.status(201).json({ order });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
 const createOrder = async (req, res) => {
   try {
     const loggedInUserId = req.user.payload.userId;
-    const { shippingAddress } = req.body;
+
+    // Step 1: Retrieve the user's cart
     const cart = await Cart.findOne({ userId: loggedInUserId });
     if (!cart) {
       return res.status(404).json({ error: "Cart not found" });
     }
+
+    // Step 2: Fetch products from the cart
     const cartProducts = cart.products;
+    if (cartProducts.length === 0) {
+      return res.status(400).json({ error: "Cart is empty" });
+    }
+
     const orderItems = [];
+
+    // Step 3: Iterate over cart products
     for (let i = 0; i < cartProducts.length; i++) {
       const product = await Product.findById(cartProducts[i].productId);
+
+      // Debugging: Check if product details are fetched
+      console.log(`Fetched product details for cart item ${i}:`, product);
+
       if (!product) {
         return res.status(404).json({ error: "Product not found" });
       }
+
       orderItems.push({
         name: product.name,
         type: product.type,
@@ -57,16 +107,20 @@ const createOrder = async (req, res) => {
         batch: product.batch,
         material: product.material,
         productImage: product.productImage,
-        quantity: cartProducts[i].quantity,
+        quantity: 1, // You might need to adjust this based on your logic
       });
     }
 
+    // Step 4: Create the order
     const order = await Order.create({
       userId: loggedInUserId,
       orderItems,
-      shippingAddress,
     });
+
+    // Step 5: Clear the user's cart
     await cart.deleteOne();
+
+    // Step 6: Respond with the created order
     res.status(201).json({ order });
   } catch (error) {
     res.status(500).json({ error: error.message });

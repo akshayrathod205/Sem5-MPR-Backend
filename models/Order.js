@@ -16,15 +16,6 @@ const OrderSchema = new mongoose.Schema({
       quantity: { type: Number, required: true },
     },
   ],
-  shippingAddress: {
-    address: {
-      type: String,
-      required: true,
-    },
-    state: { type: String, required: true },
-    city: { type: String, required: true },
-    pincode: { type: String, required: true },
-  },
   paymentMethod: {
     type: String,
   },
@@ -35,7 +26,7 @@ const OrderSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-});
+}, { timestamps: true });
 
 const Order = mongoose.model("Order", OrderSchema);
 module.exports = Order;
