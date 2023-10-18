@@ -52,14 +52,6 @@ const ConsumerSchema = new mongoose.Schema({
   panNo: {
     type: String,
   },
-  currentOrders: {
-    type: Array,
-    default: [],
-  },
-  pastOrders: {
-    type: Array,
-    default: [],
-  },
 });
 
 ConsumerSchema.methods.generateToken = function () {
