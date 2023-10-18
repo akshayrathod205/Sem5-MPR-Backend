@@ -7,8 +7,8 @@ const {
   deleteProduct,
 } = require("../controllers/inventory");
 
-router.route("/").post(Authentication, createProduct);
-router.route("/:id").put(Authentication, updateProduct);
-router.route("/:id").delete(Authentication, deleteProduct);
+router.route("/admin").post(Authentication, createProduct);
+router.route("/admin/:id").put(Authentication, updateProduct);
+router.route("/admin/:id").delete(Authentication, deleteProduct);
 
 module.exports = router;

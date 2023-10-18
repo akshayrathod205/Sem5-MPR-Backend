@@ -4,6 +4,6 @@ const Authentication = require("../middleware/Authentication");
 const { getCart, addToCart, deleteFromCart } = require("../controllers/cart");
 
 router.route("/").get(Authentication, getCart).post(Authentication, addToCart);
-router.route("/delete").post(Authentication, deleteFromCart);
+router.route("/:id").delete(Authentication, deleteFromCart);
 
 module.exports = router;
