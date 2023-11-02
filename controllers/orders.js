@@ -5,7 +5,7 @@ const Cart = require("../models/Cart");
 
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find({});
+    const orders = await Order.find({ isPaid: false });
     res.status(200).json({ orders });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -28,8 +28,12 @@ const getSingleOrder = async (req, res) => {
 const getUserOrders = async (req, res) => {
   try {
     const loggedInUserId = req.user.payload.userId;
-    const orders = await Order.find({ userId: loggedInUserId });
-    res.status(200).json({ orders });
+    const order = await Order.findOne({
+      userId: loggedInUserId,
+      isPaid: false,
+      quotation: { $exists: true },
+    });
+    res.status(200).json({ order });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
